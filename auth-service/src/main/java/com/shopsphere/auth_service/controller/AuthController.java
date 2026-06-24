@@ -14,6 +14,7 @@ import com.shopsphere.auth_service.dto.RegisterRequest;
 import com.shopsphere.auth_service.dto.RegisterResponse;
 import com.shopsphere.auth_service.service.AuthService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -25,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(
-            @RequestBody RegisterRequest request
+            @Valid@RequestBody RegisterRequest request
     ) {
         return new ResponseEntity<>(
                 authService.register(request),

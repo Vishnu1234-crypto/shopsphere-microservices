@@ -1,16 +1,23 @@
 package com.shopsphere.cart_service.dto;
 
-import lombok.*;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartRequest {
+	@NotNull
+	private Long userId;
 
-    private Long userId;
+	@NotNull
+	private Long productId;
 
-    private Long productId;
-
-    private Integer quantity;
+	@Positive
+	private Integer quantity;
 }

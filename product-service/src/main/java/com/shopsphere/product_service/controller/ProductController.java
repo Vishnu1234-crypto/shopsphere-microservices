@@ -17,6 +17,7 @@ import com.shopsphere.product_service.dto.ProductRequest;
 import com.shopsphere.product_service.dto.ProductResponse;
 import com.shopsphere.product_service.service.ProductService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -28,7 +29,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(
-            @RequestBody ProductRequest request) {
+           @Valid @RequestBody ProductRequest request) {
 
         return new ResponseEntity<>(
                 productService.createProduct(request),

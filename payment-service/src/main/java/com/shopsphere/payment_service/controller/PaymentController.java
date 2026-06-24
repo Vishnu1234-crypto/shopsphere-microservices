@@ -3,12 +3,19 @@ package com.shopsphere.payment_service.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.shopsphere.payment_service.dto.PaymentRequest;
 import com.shopsphere.payment_service.dto.PaymentResponse;
 import com.shopsphere.payment_service.service.PaymentService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,7 +27,7 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<PaymentResponse> makePayment(
-            @RequestBody PaymentRequest request) {
+           @Valid @RequestBody PaymentRequest request) {
 
         return ResponseEntity.ok(
                 paymentService.makePayment(request));
