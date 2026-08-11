@@ -9,6 +9,6 @@ import com.shopsphere.order_service.dto.PaymentRequest;
 @FeignClient(name = "PAYMENT-SERVICE")
 public interface PaymentClient {
 
-    @PostMapping("/api/payments")
-    Object createPayment(@RequestBody PaymentRequest request);
+	@PostMapping("/api/payments")
+	Object createPayment(@RequestBody PaymentRequest request);
 }

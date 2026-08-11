@@ -16,50 +16,40 @@ import com.shopsphere.order_service.dto.OrderResponse;
 import com.shopsphere.order_service.service.OrderService;
 
 import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/orders")
 public class OrderController {
 
-    private final OrderService orderService;
+	private final OrderService orderService;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
+	public OrderController(OrderService orderService) {
+		this.orderService = orderService;
+	}
 
-    @PostMapping
-    public ResponseEntity<OrderResponse> placeOrder(
-    	    @Valid@RequestBody OrderRequest request) {
+	@PostMapping
+	public ResponseEntity<OrderResponse> placeOrder(@Valid @RequestBody OrderRequest request) {
 
-        return ResponseEntity.ok(
-                orderService.placeOrder(request)
-        );
-    }
+		return ResponseEntity.ok(orderService.placeOrder(request));
+	}
 
-    @GetMapping
-    public ResponseEntity<List<OrderResponse>> getAllOrders() {
+	@GetMapping
+	public ResponseEntity<List<OrderResponse>> getAllOrders() {
 
-        return ResponseEntity.ok(
-                orderService.getAllOrders()
-        );
-    }
+		return ResponseEntity.ok(orderService.getAllOrders());
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderResponse> getOrderById(
-            @PathVariable Long id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(
-                orderService.getOrderById(id)
-        );
-    }
+		return ResponseEntity.ok(orderService.getOrderById(id));
+	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> cancelOrder(
-            @PathVariable Long id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
 
-        orderService.cancelOrder(id);
+		orderService.cancelOrder(id);
 
-        return ResponseEntity.ok(
-                "Order cancelled successfully"
-        );
-    }
+		return ResponseEntity.ok("Order cancelled successfully");
+	}
 }

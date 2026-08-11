@@ -9,6 +9,6 @@ import com.shopsphere.order_service.dto.InventoryResponse;
 @FeignClient(name = "INVENTORY-SERVICE")
 public interface InventoryClient {
 
-    @GetMapping("/api/inventory/{id}")
-    InventoryResponse getInventory(@PathVariable Long id);
+	@GetMapping("/api/inventory/{id}")
+	InventoryResponse getInventory(@PathVariable Long id);
 }

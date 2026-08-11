@@ -9,6 +9,6 @@ import com.shopsphere.order_service.dto.NotificationRequest;
 @FeignClient(name = "NOTIFICATION-SERVICE")
 public interface NotificationClient {
 
-    @PostMapping("/api/notifications")
-    Object sendNotification(@RequestBody NotificationRequest request);
+	@PostMapping("/api/notifications")
+	Object sendNotification(@RequestBody NotificationRequest request);
 }

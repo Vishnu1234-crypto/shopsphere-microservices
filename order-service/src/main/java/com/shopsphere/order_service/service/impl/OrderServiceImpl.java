@@ -11,113 +11,77 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private final OrderRepository orderRepository;
-    private final InventoryClient inventoryClient;
-    private final PaymentClient paymentClient;
-    private final NotificationClient notificationClient;
+	private final OrderRepository orderRepository;
+	private final InventoryClient inventoryClient;
+	private final PaymentClient paymentClient;
+	private final NotificationClient notificationClient;
 
-    public OrderServiceImpl(
-            OrderRepository orderRepository,
-            InventoryClient inventoryClient,
-            PaymentClient paymentClient,
-            NotificationClient notificationClient) {
+	public OrderServiceImpl(OrderRepository orderRepository, InventoryClient inventoryClient,
+			PaymentClient paymentClient, NotificationClient notificationClient) {
 
-        this.orderRepository = orderRepository;
-        this.inventoryClient = inventoryClient;
-        this.paymentClient = paymentClient;
-        this.notificationClient = notificationClient;
-    }
-    @Override
-    public OrderResponse placeOrder(OrderRequest request) {
+		this.orderRepository = orderRepository;
+		this.inventoryClient = inventoryClient;
+		this.paymentClient = paymentClient;
+		this.notificationClient = notificationClient;
+	}
 
-        InventoryResponse inventory =
-                inventoryClient.getInventory(request.getProductId());
+	@Override
+	public OrderResponse placeOrder(OrderRequest request) {
 
-        if (inventory.getQuantity() <= 0) {
-            throw new RuntimeException("Product Out Of Stock");
-        }
+		InventoryResponse inventory = inventoryClient.getInventory(request.getProductId());
 
-        Order order = Order.builder()
-                .userId(request.getUserId())
-                .productId(request.getProductId())
-                .quantity(request.getQuantity())
-                .totalPrice(request.getTotalPrice())
-                .status("PLACED")
-                .build();
+		if (inventory.getQuantity() <= 0) {
+			throw new RuntimeException("Product Out Of Stock");
+		}
 
-        Order savedOrder = orderRepository.save(order);
+		Order order = Order.builder().userId(request.getUserId()).productId(request.getProductId())
+				.quantity(request.getQuantity()).totalPrice(request.getTotalPrice()).status("PLACED").build();
 
-        PaymentRequest paymentRequest =
-                new PaymentRequest(
-                        savedOrder.getId(),
-                        savedOrder.getTotalPrice(),
-                        "UPI"
-                );
+		Order savedOrder = orderRepository.save(order);
 
-        paymentClient.createPayment(paymentRequest);
+		PaymentRequest paymentRequest = new PaymentRequest(savedOrder.getId(), savedOrder.getTotalPrice(), "UPI");
 
-        NotificationRequest notificationRequest =
-                new NotificationRequest(
-                        "Order placed successfully"
-                );
+		paymentClient.createPayment(paymentRequest);
 
-        notificationClient.sendNotification(notificationRequest);
+		NotificationRequest notificationRequest = new NotificationRequest("Order placed successfully");
 
-        return mapToResponse(savedOrder);
-    } 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+		notificationClient.sendNotification(notificationRequest);
 
-    @Override
-    public List<OrderResponse> getAllOrders() {
-        return orderRepository.findAll()
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
-    }
+		return mapToResponse(savedOrder);
+	}
 
-    @Override
-    public OrderResponse getOrderById(Long id) {
+	@Override
+	public List<OrderResponse> getAllOrders() {
+		return orderRepository.findAll().stream().map(this::mapToResponse).toList();
+	}
 
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order Not Found"));
+	@Override
+	public OrderResponse getOrderById(Long id) {
 
-        return mapToResponse(order);
-    }
+		Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order Not Found"));
 
-    @Override
-    public String cancelOrder(Long id) {
+		return mapToResponse(order);
+	}
 
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order Not Found"));
+	@Override
+	public String cancelOrder(Long id) {
 
-        order.setStatus("CANCELLED");
+		Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order Not Found"));
 
-        orderRepository.save(order);
+		order.setStatus("CANCELLED");
 
-        return "Order Cancelled Successfully";
-    }
+		orderRepository.save(order);
 
-    private OrderResponse mapToResponse(Order order) {
+		return "Order Cancelled Successfully";
+	}
 
-        return OrderResponse.builder()
-                .id(order.getId())
-                .userId(order.getUserId())
-                .productId(order.getProductId())
-                .quantity(order.getQuantity())
-                .totalPrice(order.getTotalPrice())
-                .status(order.getStatus())
-                .build();
-    }
+	private OrderResponse mapToResponse(Order order) {
+
+		return OrderResponse.builder().id(order.getId()).userId(order.getUserId()).productId(order.getProductId())
+				.quantity(order.getQuantity()).totalPrice(order.getTotalPrice()).status(order.getStatus()).build();
+	}
 }

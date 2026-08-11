@@ -1,5 +1,4 @@
 package com.shopsphere.inventory_service.exception;
- 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ErrorResponse {
 
-    private String message;
-    private int status;
+	private String message;
+	private int status;
 }

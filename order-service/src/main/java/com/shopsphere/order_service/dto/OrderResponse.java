@@ -9,15 +9,15 @@ import lombok.*;
 @Builder
 public class OrderResponse {
 
-    private Long id;
+	private Long id;
 
-    private Long userId;
+	private Long userId;
 
-    private Long productId;
+	private Long productId;
 
-    private Integer quantity;
+	private Integer quantity;
 
-    private Double totalPrice;
+	private Double totalPrice;
 
-    private String status;
+	private String status;
 }

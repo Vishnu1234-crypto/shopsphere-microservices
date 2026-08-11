@@ -6,7 +6,7 @@ spring:
     name: PRODUCT-SERVICE
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/product_db
+    url: jdbc:postgresql://host.docker.internal:5432/product_db
     username: postgres
     password: root
 

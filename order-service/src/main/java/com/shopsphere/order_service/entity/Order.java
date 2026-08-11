@@ -12,17 +12,17 @@ import lombok.*;
 @Builder
 public class Order {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private Long userId;
+	private Long userId;
 
-    private Long productId;
+	private Long productId;
 
-    private Integer quantity;
+	private Integer quantity;
 
-    private Double totalPrice;
+	private Double totalPrice;
 
-    private String status;
+	private String status;
 }
