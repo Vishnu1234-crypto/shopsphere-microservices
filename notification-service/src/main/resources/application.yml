@@ -6,7 +6,7 @@ spring:
     name: NOTIFICATION-SERVICE
 
   datasource:
-    url: jdbc:postgresql://host.docker.internal:5432/notification_db
+    url: jdbc:postgresql://postgres:5432/notification_db
     username: postgres
     password: root
 

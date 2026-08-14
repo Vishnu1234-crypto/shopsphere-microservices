@@ -1,25 +1,30 @@
 package com.shopsphere.product_service.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.shopsphere.product_service.dto.ProductRequest;
 import com.shopsphere.product_service.dto.ProductResponse;
 import com.shopsphere.product_service.entity.Product;
+import com.shopsphere.product_service.exception.ResourceNotFoundException;
 import com.shopsphere.product_service.repository.ProductRepository;
 import com.shopsphere.product_service.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService {
+public class ProductServiceImpl
+        implements ProductService {
 
     private final ProductRepository productRepository;
 
     @Override
-    public ProductResponse createProduct(ProductRequest request) {
+    @Transactional
+    public ProductResponse createProduct(
+            ProductRequest request) {
 
         Product product = Product.builder()
                 .name(request.getName())
@@ -28,12 +33,14 @@ public class ProductServiceImpl implements ProductService {
                 .stock(request.getStock())
                 .build();
 
-        Product savedProduct = productRepository.save(product);
+        Product savedProduct =
+                productRepository.save(product);
 
         return mapToResponse(savedProduct);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductResponse> getAllProducts() {
 
         return productRepository.findAll()
@@ -43,22 +50,36 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse getProductById(Long id) {
+    @Transactional(readOnly = true)
+    public ProductResponse getProductById(
+            Long id) {
 
-        Product product = productRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Product not found"));
+        Product product =
+                productRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Product not found with id: "
+                                                + id
+                                )
+                        );
 
         return mapToResponse(product);
     }
 
     @Override
-    public ProductResponse updateProduct(Long id,
-                                         ProductRequest request) {
+    @Transactional
+    public ProductResponse updateProduct(
+            Long id,
+            ProductRequest request) {
 
-        Product product = productRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Product not found"));
+        Product product =
+                productRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Product not found with id: "
+                                                + id
+                                )
+                        );
 
         product.setName(request.getName());
         product.setDescription(request.getDescription());
@@ -72,18 +93,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public String deleteProduct(Long id) {
 
-        Product product = productRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Product not found"));
+        Product product =
+                productRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Product not found with id: "
+                                                + id
+                                )
+                        );
 
         productRepository.delete(product);
 
         return "Product deleted successfully";
     }
 
-    private ProductResponse mapToResponse(Product product) {
+    private ProductResponse mapToResponse(
+            Product product) {
 
         return ProductResponse.builder()
                 .id(product.getId())

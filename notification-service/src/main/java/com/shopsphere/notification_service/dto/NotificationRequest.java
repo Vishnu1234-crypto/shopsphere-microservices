@@ -15,7 +15,9 @@ import lombok.Setter;
 public class NotificationRequest {
 
     private String recipient;
+
     private String subject;
+
     @NotBlank(message = "Message cannot be empty")
     private String message;
 }

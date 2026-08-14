@@ -13,5 +13,11 @@ public interface PaymentService {
 
     PaymentResponse getPaymentById(Long id);
 
+    PaymentResponse confirmPayment(Long id);
+
+    PaymentResponse getPaymentByOrderId(Long orderId);
+
     void cancelPayment(Long id);
+
+    PaymentResponse refundPayment(Long id);
 }

@@ -48,6 +48,15 @@ services:
       - postgres
       - discovery-server
 
+  inventory-service:
+    build: ./inventory-service
+    container_name: inventory-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres
+      - discovery-server
+
   cart-service:
     build: ./cart-service
     container_name: cart-service

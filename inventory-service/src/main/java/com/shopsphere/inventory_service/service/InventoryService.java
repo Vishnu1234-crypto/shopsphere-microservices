@@ -1,15 +1,43 @@
 package com.shopsphere.inventory_service.service;
 
+import java.util.List;
+
 import com.shopsphere.inventory_service.dto.InventoryRequest;
 import com.shopsphere.inventory_service.dto.InventoryResponse;
 
 public interface InventoryService {
 
-    InventoryResponse createInventory(InventoryRequest request);
+    InventoryResponse createInventory(
+            InventoryRequest request
+    );
 
-    InventoryResponse getInventory(Long productId);
+    List<InventoryResponse> getAllInventory();
 
-    InventoryResponse addStock(Long productId, Integer quantity);
+    InventoryResponse getInventoryByProductId(
+            Long productId
+    );
 
-    InventoryResponse reduceStock(Long productId, Integer quantity);
+    InventoryResponse updateInventory(
+            Long productId,
+            InventoryRequest request
+    );
+
+    InventoryResponse increaseStock(
+            Long productId,
+            Integer quantity
+    );
+
+    InventoryResponse reduceStock(
+            Long productId,
+            Integer quantity
+    );
+
+    InventoryResponse restoreStock(
+            Long productId,
+            Integer quantity
+    );
+
+    void deleteInventory(
+            Long productId
+    );
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,17 +28,19 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<PaymentResponse> makePayment(
-           @Valid @RequestBody PaymentRequest request) {
+            @Valid @RequestBody PaymentRequest request) {
 
         return ResponseEntity.ok(
-                paymentService.makePayment(request));
+                paymentService.makePayment(request)
+        );
     }
 
     @GetMapping
     public ResponseEntity<List<PaymentResponse>> getAllPayments() {
 
         return ResponseEntity.ok(
-                paymentService.getAllPayments());
+                paymentService.getAllPayments()
+        );
     }
 
     @GetMapping("/{id}")
@@ -45,16 +48,42 @@ public class PaymentController {
             @PathVariable Long id) {
 
         return ResponseEntity.ok(
-                paymentService.getPaymentById(id));
+                paymentService.getPaymentById(id)
+        );
     }
-
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/cancel")
     public ResponseEntity<String> cancelPayment(
             @PathVariable Long id) {
 
         paymentService.cancelPayment(id);
 
         return ResponseEntity.ok(
-                "Payment cancelled successfully");
+                "Payment cancelled successfully"
+        );
     }
+    @PostMapping("/{id}/confirm")
+    public ResponseEntity<PaymentResponse> confirmPayment(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                paymentService.confirmPayment(id)
+        );
+    }
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<PaymentResponse> getPaymentByOrderId(
+            @PathVariable Long orderId) {
+
+        return ResponseEntity.ok(
+                paymentService.getPaymentByOrderId(orderId)
+        );
+    }
+    @PostMapping("/{id}/refund")
+    public ResponseEntity<PaymentResponse> refundPayment(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                paymentService.refundPayment(id)
+        );
+    }
+    
 }

@@ -1,6 +1,10 @@
 package com.shopsphere.payment_service.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -16,6 +20,10 @@ public class PaymentResponse {
     private Double amount;
 
     private String paymentMethod;
+
+    private String upiId;
+
+    private String transactionId;
 
     private String status;
 }

@@ -16,40 +16,73 @@ import com.shopsphere.order_service.dto.OrderResponse;
 import com.shopsphere.order_service.service.OrderService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/orders")
+@RequiredArgsConstructor
 public class OrderController {
 
-	private final OrderService orderService;
+    private final OrderService orderService;
 
-	public OrderController(OrderService orderService) {
-		this.orderService = orderService;
-	}
 
-	@PostMapping
-	public ResponseEntity<OrderResponse> placeOrder(@Valid @RequestBody OrderRequest request) {
+    @PostMapping
+    public ResponseEntity<OrderResponse> placeOrder(
+            @Valid @RequestBody OrderRequest request) {
 
-		return ResponseEntity.ok(orderService.placeOrder(request));
-	}
+        return ResponseEntity.ok(
+                orderService.placeOrder(request)
+        );
+    }
 
-	@GetMapping
-	public ResponseEntity<List<OrderResponse>> getAllOrders() {
 
-		return ResponseEntity.ok(orderService.getAllOrders());
-	}
+    @GetMapping
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
 
-	@GetMapping("/{id}")
-	public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                orderService.getAllOrders()
+        );
+    }
 
-		return ResponseEntity.ok(orderService.getOrderById(id));
-	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponse> getOrderById(
+            @PathVariable Long id) {
 
-		orderService.cancelOrder(id);
+        return ResponseEntity.ok(
+                orderService.getOrderById(id)
+        );
+    }
 
-		return ResponseEntity.ok("Order cancelled successfully");
-	}
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> cancelOrder(
+            @PathVariable Long id) {
+
+        orderService.cancelOrder(id);
+
+        return ResponseEntity.ok(
+                "Order cancelled successfully"
+        );
+    }
+
+
+    @PostMapping("/{id}/confirm-payment")
+    public ResponseEntity<OrderResponse> confirmPayment(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                orderService.confirmPayment(id)
+        );
+    }
+
+
+    @PostMapping("/{id}/pay")
+    public ResponseEntity<OrderResponse> payOrder(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                orderService.payOrder(id)
+        );
+    }
 }

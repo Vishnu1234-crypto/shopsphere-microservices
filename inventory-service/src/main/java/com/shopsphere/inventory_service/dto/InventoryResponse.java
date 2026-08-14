@@ -1,12 +1,14 @@
 package com.shopsphere.inventory_service.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class InventoryResponse {
 
     private Long id;
@@ -14,4 +16,8 @@ public class InventoryResponse {
     private Long productId;
 
     private Integer quantity;
+
+    private Integer reservedQuantity;
+
+    private Integer availableQuantity;
 }

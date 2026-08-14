@@ -1,7 +1,11 @@
 package com.shopsphere.product_service.repository;
 
-import com.shopsphere.product_service.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+import com.shopsphere.product_service.entity.Product;
+
+@Repository
+public interface ProductRepository
+        extends JpaRepository<Product, Long> {
 }

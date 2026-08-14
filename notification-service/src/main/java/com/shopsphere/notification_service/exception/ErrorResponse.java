@@ -1,4 +1,4 @@
-package com.shopsphere.inventory_service.exception;
+package com.shopsphere.notification_service.exception;
  
 
 import lombok.AllArgsConstructor;

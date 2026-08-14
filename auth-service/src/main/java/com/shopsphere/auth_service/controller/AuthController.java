@@ -26,24 +26,27 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(
-            @Valid@RequestBody RegisterRequest request
-    ) {
-        return new ResponseEntity<>(
-                authService.register(request),
-                HttpStatus.CREATED
-        );
+            @Valid @RequestBody RegisterRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(authService.register(request));
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
-            @RequestBody LoginRequest request
-    ) {
+            @Valid @RequestBody LoginRequest request) {
+
         return ResponseEntity.ok(
                 authService.login(request)
         );
     }
+
     @GetMapping("/profile")
     public ResponseEntity<String> profile() {
-        return ResponseEntity.ok("Welcome Vishnu");
+
+        return ResponseEntity.ok(
+                "Welcome to ShopSphere"
+        );
     }
 }

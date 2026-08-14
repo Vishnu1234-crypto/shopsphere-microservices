@@ -26,24 +26,30 @@ public class NotificationController {
 
     @PostMapping
     public Notification sendNotification(
-          @Valid  @RequestBody NotificationRequest request) {
+            @Valid @RequestBody NotificationRequest request) {
 
         return notificationService.sendNotification(request);
     }
 
     @GetMapping
     public List<Notification> getAllNotifications() {
+
         return notificationService.getAllNotifications();
     }
 
     @GetMapping("/{id}")
-    public Notification getNotification(@PathVariable Long id) {
+    public Notification getNotification(
+            @PathVariable Long id) {
+
         return notificationService.getNotification(id);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteNotification(@PathVariable Long id) {
+    public String deleteNotification(
+            @PathVariable Long id) {
+
         notificationService.deleteNotification(id);
+
         return "Notification deleted successfully";
     }
 }
